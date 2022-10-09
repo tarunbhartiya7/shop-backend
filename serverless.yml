@@ -1,0 +1,27 @@
+service: shop-backend
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  getProductsList:
+    handler: handler.getProductsList
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+  getProductsById:
+    handler: handler.getProductsById
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          request:
+            parameters:
+              paths:
+                productId: true
+          cors: true
