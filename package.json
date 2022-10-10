@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "deploy": "serverless deploy"
   },
   "dependencies": {
     "jest": "^29.1.2"
