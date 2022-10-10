@@ -8,20 +8,16 @@ provider:
 
 functions:
   getProductsList:
-    handler: handler.getProductsList
+    handler: products.getProductsList
     events:
       - http:
           path: /products
           method: get
           cors: true
   getProductsById:
-    handler: handler.getProductsById
+    handler: products.getProductsById
     events:
       - http:
           path: /products/{productId}
           method: get
-          request:
-            parameters:
-              paths:
-                productId: true
           cors: true
