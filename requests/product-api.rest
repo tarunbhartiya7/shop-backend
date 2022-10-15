@@ -1,0 +1,20 @@
+GET https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products
+
+###
+
+GET https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products/74144640-4c6f-11ed-8b82-553a1dee0a14
+
+###
+
+POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products
+Content-Type: application/json
+
+{
+    "description": "6.1-inch (15.5 cm diagonal) Super Retina XDR display",
+    "price": 1200,
+    "title": "Yphone 12"
+}
+
+###
+
+

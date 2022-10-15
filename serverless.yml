@@ -5,6 +5,14 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs14.x
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "*"
 
 functions:
   getProductsList:
@@ -21,3 +29,39 @@ functions:
           path: /products/{productId}
           method: get
           cors: true
+  createProduct:
+    handler: products.createProduct
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    productsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: products
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    stocksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: stocks
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

@@ -1,0 +1,7 @@
+curl https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"6.1-inch (15.5 cm diagonal) Super Retina XDR display","price":1500,"title":"Yphone 12"}'
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"5.4-inch (13.7 cm diagonal) Super Retina XDR display","price":2400,"title":"Yphone 13 mini"}'
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"6.1-inch (15.5 cm diagonal) Super Retina XDR display","price":2200,"title":"Yphone 13"}'
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"6.1-inch (15.5 cm diagonal) Super Retina XDR display with ProMotion","price":1800,"title":"Yphone 13 Pro"}'
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"6.1-inch Super Retina XDR display","price":2500,"title":"Yphone 14"}'
+curl -X POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products -H 'Content-Type: application/json' -d '{"description":"6.1-inch Super Retina XDR display with ProMotion","price":2700,"title":"Yphone 14 Pro"}'
