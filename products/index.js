@@ -59,7 +59,7 @@ module.exports.getProductsById = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(product),
+    body: JSON.stringify(product.Item),
     headers: corsHeaders,
   }
 }
