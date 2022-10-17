@@ -26,9 +26,7 @@ module.exports.getProductsList = (event, context, callback) => {
       console.log("Scan succeeded.")
       return callback(null, {
         statusCode: 200,
-        body: JSON.stringify({
-          products: data.Items,
-        }),
+        body: JSON.stringify(data.Items),
         headers: corsHeaders,
       })
     }
