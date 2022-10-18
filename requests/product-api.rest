@@ -1,12 +1,16 @@
-GET https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products
+GET https://kras7hnycg.execute-api.ap-south-1.amazonaws.com/dev/products
 
 ###
 
-GET https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products/74144640-4c6f-11ed-8b82-553a1dee0a14
+GET https://kras7hnycg.execute-api.ap-south-1.amazonaws.com/dev/products/7567ec4b-b10c-48c5-9345-fc73c48a80aa
 
 ###
 
-POST https://9ymgkwpwti.execute-api.us-east-1.amazonaws.com/dev/products
+GET https://kras7hnycg.execute-api.ap-south-1.amazonaws.com/dev/products/74144640-4c6f-11ed-8b82-553a1dee0a14
+
+###
+
+POST https://kras7hnycg.execute-api.ap-south-1.amazonaws.com/dev/products
 Content-Type: application/json
 
 {
