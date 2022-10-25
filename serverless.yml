@@ -14,6 +14,9 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: "*"
+  environment:
+    PRODUCTS_TABLE: "products"
+    STOCKS_TABLE: "stocks"
 
 functions:
   getProductsList:
@@ -43,7 +46,7 @@ resources:
     productsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: products
+        TableName: ${self:provider.environment.PRODUCTS_TABLE}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
@@ -56,7 +59,7 @@ resources:
     stocksTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: stocks
+        TableName: ${self:provider.environment.STOCKS_TABLE}
         AttributeDefinitions:
           - AttributeName: product_id
             AttributeType: S
