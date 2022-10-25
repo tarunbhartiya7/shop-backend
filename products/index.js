@@ -1,41 +1,44 @@
 const uuid = require("uuid")
 const AWS = require("aws-sdk")
 const dynamo = new AWS.DynamoDB.DocumentClient()
-const { products } = require("./stubData")
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Credentials": true,
 }
 
-module.exports.getProductsList = (event, context, callback) => {
-  var params = {
-    TableName: "products",
-  }
-
+module.exports.getProductsList = async (event, context, callback) => {
   console.log("Scanning Products table.")
 
-  const onScan = (err, data) => {
-    if (err) {
-      console.log(
-        "Scan failed to load data. Error JSON:",
-        JSON.stringify(err, null, 2)
-      )
-      callback(err)
-    } else {
-      console.log("Scan succeeded.")
-      return callback(null, {
-        statusCode: 200,
-        body: JSON.stringify(data.Items),
-        headers: corsHeaders,
+  try {
+    const data = await dynamo
+      .scan({
+        TableName: "products",
       })
+      .promise()
+
+    console.log("Scan succeeded.")
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify(data.Items),
+      headers: corsHeaders,
+    }
+  } catch (error) {
+    console.log(
+      "Scan failed to load data. Error JSON:",
+      JSON.stringify(err, null, 2)
+    )
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err, null, 2),
+      headers: corsHeaders,
     }
   }
-
-  dynamo.scan(params, onScan)
 }
 
 module.exports.getProductsById = async (event) => {
+  console.log("Event: ", event)
   const { productId } = event.pathParameters
 
   const product = await dynamo
@@ -49,7 +52,7 @@ module.exports.getProductsById = async (event) => {
 
   if (Object.keys(product).length === 0) {
     return {
-      statusCode: 200,
+      statusCode: 404,
       body: JSON.stringify({
         message: "Product not found",
       }),
@@ -65,6 +68,7 @@ module.exports.getProductsById = async (event) => {
 }
 
 module.exports.createProduct = async (event) => {
+  console.log("Event: ", event)
   const requestBody = JSON.parse(event.body)
   const { title, description, price } = requestBody
 
