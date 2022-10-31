@@ -20,25 +20,32 @@ provider:
 
 functions:
   getProductsList:
-    handler: products.getProductsList
+    handler: product-service.getProductsList
     events:
       - http:
           path: /products
           method: get
           cors: true
   getProductsById:
-    handler: products.getProductsById
+    handler: product-service.getProductsById
     events:
       - http:
           path: /products/{productId}
           method: get
           cors: true
   createProduct:
-    handler: products.createProduct
+    handler: product-service.createProduct
     events:
       - http:
           path: /products
           method: post
+          cors: true
+  importProductsFile:
+    handler: import-service.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: get
           cors: true
 
 resources:
