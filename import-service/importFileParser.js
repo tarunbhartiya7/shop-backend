@@ -15,8 +15,19 @@ module.exports.importFileParser = async (event) => {
       .createReadStream()
       .pipe(csv())
       .on("data", (data) => results.push(data))
-      .on("end", () => {
+      .on("end", async () => {
         console.log(results)
+
+        await s3
+          .copyObject({
+            Bucket: process.env.S3_BUCKET,
+            CopySource: `${process.env.S3_BUCKET}/uploaded/products.csv`,
+            Key: `parsed/products.csv`,
+          })
+          .promise()
+
+        await s3.deleteObject(params).promise()
+
         resolve(results)
       })
       .on("error", (error) => {

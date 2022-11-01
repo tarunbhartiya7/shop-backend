@@ -13,8 +13,7 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
-        - s3:GetObject
-        - s3:PutObject
+        - s3:*
       Resource: "*"
   environment:
     PRODUCTS_TABLE: "products"
