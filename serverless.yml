@@ -19,6 +19,7 @@ provider:
   environment:
     PRODUCTS_TABLE: "products"
     STOCKS_TABLE: "stocks"
+    S3_BUCKET: "node-aws-images"
 
 functions:
   getProductsList:
@@ -53,6 +54,15 @@ functions:
             parameters:
               querystrings:
                 name: true
+  importFileParser:
+    handler: import-service.importFileParser
+    events:
+      - s3:
+          bucket: ${self:provider.environment.S3_BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
 
 resources:
   Resources:
