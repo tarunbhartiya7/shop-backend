@@ -14,9 +14,15 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: "*"
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource:
+        Ref: createProductTopic
   environment:
     PRODUCTS_TABLE: "products"
     STOCKS_TABLE: "stocks"
+    SNS_ARN:
+      Ref: createProductTopic
 
 functions:
   getProductsList:
@@ -82,3 +88,13 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: catalogItemsQueue
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    snsSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: tarunbhartiya7@gmail.com
+        Protocol: email
+        TopicArn: !Ref "createProductTopic"

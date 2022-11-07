@@ -1,6 +1,7 @@
 const uuid = require("uuid")
 const AWS = require("aws-sdk")
 const dynamo = new AWS.DynamoDB.DocumentClient()
+const sns = new AWS.SNS()
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -40,7 +41,17 @@ module.exports.catalogBatchProcess = async (event) => {
         })
         .promise()
 
-      console.log("inserted")
+      console.log("inserted in database")
+
+      const params = {
+        TopicArn: process.env.SNS_ARN,
+        Subject: "Product SNS From Lambda",
+        Message: `Created product: ${JSON.stringify(item)}`,
+      }
+
+      await sns.publish(params).promise()
+
+      console.log("message send to SNS topic")
     }
   } catch (error) {
     console.log(
