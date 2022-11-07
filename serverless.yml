@@ -13,33 +13,55 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - s3:*
       Resource: "*"
   environment:
     PRODUCTS_TABLE: "products"
     STOCKS_TABLE: "stocks"
+    S3_BUCKET: "node-aws-images"
 
 functions:
   getProductsList:
-    handler: products.getProductsList
+    handler: product-service.getProductsList
     events:
       - http:
           path: /products
           method: get
           cors: true
   getProductsById:
-    handler: products.getProductsById
+    handler: product-service.getProductsById
     events:
       - http:
           path: /products/{productId}
           method: get
           cors: true
   createProduct:
-    handler: products.createProduct
+    handler: product-service.createProduct
     events:
       - http:
           path: /products
           method: post
           cors: true
+  importProductsFile:
+    handler: import-service.importProductsFile
+    events:
+      - http:
+          path: /import
+          method: get
+          cors: true
+          request:
+            parameters:
+              querystrings:
+                name: true
+  importFileParser:
+    handler: import-service.importFileParser
+    events:
+      - s3:
+          bucket: ${self:provider.environment.S3_BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
 
 resources:
   Resources:
