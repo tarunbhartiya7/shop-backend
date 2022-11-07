@@ -40,6 +40,15 @@ functions:
           path: /products
           method: post
           cors: true
+  catalogBatchProcess:
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
 
 resources:
   Resources:
@@ -69,3 +78,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
