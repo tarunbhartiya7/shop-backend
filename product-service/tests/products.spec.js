@@ -1,5 +1,6 @@
-const { getProductsList, getProductsById } = require("../products")
-const { products } = require("../products/stubData")
+const { getProductsList } = require("../getProductsList")
+const { getProductsById } = require("../getProductsById")
+const { products } = require("../stubData")
 
 describe("Unit test for Products handler", function () {
   it("verifies if getProductsList returns all products", async () => {

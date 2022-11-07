@@ -1,11 +1,9 @@
 const uuid = require("uuid")
 const AWS = require("aws-sdk")
 const dynamo = new AWS.DynamoDB.DocumentClient()
-require("../config")
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": true,
 }
 
 module.exports.createProduct = async (event) => {
@@ -23,7 +21,7 @@ module.exports.createProduct = async (event) => {
   try {
     await dynamo
       .put({
-        TableName: process.env.DYNAMODB_PRODUCTS,
+        TableName: process.env.PRODUCTS_TABLE,
         Item: item,
       })
       .promise()

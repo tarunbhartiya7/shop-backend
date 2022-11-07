@@ -1,16 +1,14 @@
 const AWS = require("aws-sdk")
 const dynamo = new AWS.DynamoDB.DocumentClient()
-require("../config")
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": true,
 }
 
 async function getProduct(id) {
   const product = await dynamo
     .get({
-      TableName: process.env.DYNAMODB_PRODUCTS,
+      TableName: process.env.PRODUCTS_TABLE,
       Key: {
         id,
       },
@@ -23,7 +21,7 @@ async function getProduct(id) {
 async function getStockByProductId(id) {
   const stock = await dynamo
     .get({
-      TableName: process.env.DYNAMODB_STOCKS,
+      TableName: process.env.STOCKS_TABLE,
       Key: {
         product_id: id,
       },

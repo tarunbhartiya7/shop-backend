@@ -1,12 +1,14 @@
 const AWS = require("aws-sdk")
 const s3 = new AWS.S3()
-require("../config")
 const csv = require("csv-parser")
 
 module.exports.importFileParser = async (event) => {
+  console.log("event", JSON.stringify(event))
+  const key = event.Records[0].s3.object.key
+
   const params = {
     Bucket: process.env.S3_BUCKET,
-    Key: `uploaded/products.csv`,
+    Key: key,
   }
   const results = []
 
@@ -21,8 +23,8 @@ module.exports.importFileParser = async (event) => {
         await s3
           .copyObject({
             Bucket: process.env.S3_BUCKET,
-            CopySource: `${process.env.S3_BUCKET}/uploaded/products.csv`,
-            Key: `parsed/products.csv`,
+            CopySource: `${process.env.S3_BUCKET}/${key}`,
+            Key: key.replace("uploaded", "parsed"),
           })
           .promise()
 

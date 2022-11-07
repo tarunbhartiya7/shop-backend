@@ -1,10 +1,8 @@
 const AWS = require("aws-sdk")
 const dynamo = new AWS.DynamoDB.DocumentClient()
-require("../config")
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": true,
 }
 
 module.exports.getProductsList = async (event, context, callback) => {
@@ -13,13 +11,13 @@ module.exports.getProductsList = async (event, context, callback) => {
   try {
     const productsData = await dynamo
       .scan({
-        TableName: process.env.DYNAMODB_PRODUCTS,
+        TableName: process.env.PRODUCTS_TABLE,
       })
       .promise()
 
     const stocksData = await dynamo
       .scan({
-        TableName: process.env.DYNAMODB_STOCKS,
+        TableName: process.env.STOCKS_TABLE,
       })
       .promise()
 
