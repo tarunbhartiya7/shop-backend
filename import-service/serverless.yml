@@ -11,8 +11,13 @@ provider:
       Action:
         - s3:*
       Resource: "*"
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+      Resource: arn:aws:sqs:ap-south-1:792855711714:catalogItemsQueue
   environment:
     S3_BUCKET: "node-aws-images"
+    SQS_URL: "https://sqs.ap-south-1.amazonaws.com/792855711714/catalogItemsQueue"
 
 functions:
   importProductsFile:

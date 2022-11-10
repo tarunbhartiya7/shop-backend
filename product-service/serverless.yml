@@ -14,9 +14,15 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
       Resource: "*"
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resource:
+        Ref: createProductTopic
   environment:
     PRODUCTS_TABLE: "products"
     STOCKS_TABLE: "stocks"
+    SNS_ARN:
+      Ref: createProductTopic
 
 functions:
   getProductsList:
@@ -40,6 +46,15 @@ functions:
           path: /products
           method: post
           cors: true
+  catalogBatchProcess:
+    handler: catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
 
 resources:
   Resources:
@@ -69,3 +84,17 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: createProductTopic
+    snsSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: tarunbhartiya7@gmail.com
+        Protocol: email
+        TopicArn: !Ref "createProductTopic"

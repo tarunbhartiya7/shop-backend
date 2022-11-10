@@ -1,5 +1,6 @@
 const AWS = require("aws-sdk")
 const s3 = new AWS.S3()
+const sqs = new AWS.SQS({ apiVersion: "2012-11-05" })
 const csv = require("csv-parser")
 
 module.exports.importFileParser = async (event) => {
@@ -16,7 +17,16 @@ module.exports.importFileParser = async (event) => {
     s3.getObject(params)
       .createReadStream()
       .pipe(csv())
-      .on("data", (data) => results.push(data))
+      .on("data", async (data) => {
+        console.log(data)
+        await sqs
+          .sendMessage({
+            QueueUrl: process.env.SQS_URL,
+            MessageBody: JSON.stringify(data),
+          })
+          .promise()
+        console.log("message sent")
+      })
       .on("end", async () => {
         console.log(results)
 
