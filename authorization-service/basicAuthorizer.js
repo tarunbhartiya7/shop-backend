@@ -13,12 +13,18 @@ module.exports.basicAuthorizer = async (event) => {
     const username = plainCreds[0]
     const password = plainCreds[1]
     const storedUserPassword = process.env[username]
-    if (storedUserPassword === password) {
-      return generateAuthResponse("user", "Allow", methodArn)
+
+    console.log("plainCreds", plainCreds)
+    console.log("storedUserPassword", storedUserPassword)
+    console.log("password", password)
+
+    if (!password || storedUserPassword !== password) {
+      return generateAuthResponse("user", "Deny", methodArn)
     }
-    return generateAuthResponse("user", "Deny", methodArn)
+
+    return generateAuthResponse("user", "Allow", methodArn)
   } catch (error) {
-    throw new Error(e.message)
+    throw new Error(error.message)
   }
 }
 
