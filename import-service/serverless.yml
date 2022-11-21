@@ -31,6 +31,11 @@ functions:
             parameters:
               querystrings:
                 name: true
+          authorizer:
+            name: basicAuthorizer
+            arn: arn:aws:lambda:ap-south-1:792855711714:function:authorization-service-dev-basicAuthorizer
+            resultTtlInSeconds: 0
+            type: request
   importFileParser:
     handler: importFileParser.importFileParser
     events:

@@ -1,0 +1,15 @@
+service: authorization-service
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  region: ap-south-1
+  runtime: nodejs14.x
+
+functions:
+  basicAuthorizer:
+    handler: basicAuthorizer.basicAuthorizer
